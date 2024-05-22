@@ -4,17 +4,20 @@ import { useInterval } from "../hooks/Hooks";
 type propsType = {
   title: string;
   value: number;
+  tickrate: number;
+  increaseValue: number;
   setValue: Dispatch<SetStateAction<number>>;
 };
 
 const Counter = (props: propsType) => {
   useInterval(() => {
-    props.setValue(props.value + 1);
-  }, 1000);
+    props.setValue(props.value + props.increaseValue);
+  }, props.tickrate);
 
   return (
     <div className="text-center">
-      {props.title}: {props.value}
+      {props.title}: {props.value} {"("}{" "}
+      {Math.round(props.increaseValue * (1000 / props.tickrate))} {"/s)"}
     </div>
   );
 };
