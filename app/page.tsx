@@ -1,8 +1,21 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGlobalContext } from "./context/store";
 import Counter from "./components/Counter";
 import UpgradeList from "./components/Upgrades/UpgradeList";
+import { useInterval } from "./hooks/Hooks";
+import { load, save } from "./data/save";
+
+type saveType = {
+  bugs: number;
+  upgrades: {
+    f1: { key: string; level: number };
+    f2: { key: string; level: number };
+    f3: { key: string; level: number };
+    f4: { key: string; level: number };
+    f5: { key: string; level: number };
+  };
+};
 
 const DEFAULT_TICK_RATE = 1000;
 const DEFAULT_INCREASE_VALUE = 1;
@@ -77,18 +90,33 @@ export default function Home() {
   const { bugs, setBugs } = useGlobalContext();
 
   let [upgrades, setUpgrades] = useState(UPGRADES);
+  let [loaded, setLoaded] = useState(false);
 
   function handleLevelChange(id: string) {
     const newUpgrades = upgrades;
-    Object.values(newUpgrades).forEach((v) => {
-      if (v.key === id) {
+    Object.values(newUpgrades).forEach((u) => {
+      if (u.key === id) {
         setBugs(
-          bugs - Math.floor(v.baseCost * Math.pow(v.costScaling, v.level))
+          bugs - Math.floor(u.baseCost * Math.pow(u.costScaling, u.level))
         );
-        v.level++;
+        u.level++;
       }
     });
     setUpgrades(newUpgrades);
+  }
+
+  function setLevel(id: string, level: number) {
+    const newUpgrades = upgrades;
+    Object.values(newUpgrades).forEach((u) => {
+      if (u.key === id) {
+        u.level = level;
+      }
+    });
+    setUpgrades(newUpgrades);
+  }
+
+  function handleLoading() {
+    setLoaded(!loaded);
   }
 
   function getTickRate() {
@@ -110,6 +138,29 @@ export default function Home() {
     });
     return Math.round(x);
   }
+
+  useEffect(() => {
+    if (!loaded) {
+      handleLoading();
+      let data: saveType = load();
+
+      if (data != null) {
+        if (data.bugs === null) {
+          setBugs(0);
+        } else {
+          setBugs(data.bugs);
+        }
+
+        Object.values(data.upgrades).forEach((u) => {
+          setLevel(u.key, u.level);
+        });
+      }
+    }
+  }, []);
+
+  useInterval(() => {
+    save(upgrades, bugs);
+  }, 100);
 
   return (
     <main className="flex flex-col min-h-screen mx-auto px-12 py-4 bg-blue-400">
