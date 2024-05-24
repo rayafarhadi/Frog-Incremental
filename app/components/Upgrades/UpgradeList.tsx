@@ -1,5 +1,6 @@
 import React from "react";
 import UpgradeItem from "./UpgradeItem";
+import Card from "../UI/Card";
 
 type upgradeType = {
   key: string;
@@ -21,7 +22,7 @@ type propsType = {
 
 const UpgradeList = (props: propsType) => {
   return (
-    <div>
+    <div className="h-fit p-4 rounded-b-xl bg-background-secondary bg-opacity-40">
       {props.upgradesList.map((upgrade) => (
         <UpgradeItem
           key={upgrade.key}

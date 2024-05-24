@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { useInterval } from "../hooks/Hooks";
+import { useInterval } from "../../hooks/Hooks";
+import Card from "./Card";
 
 type propsType = {
   title: string;
@@ -15,9 +16,12 @@ const Counter = (props: propsType) => {
   }, props.tickrate);
 
   return (
-    <div className="text-center">
-      {props.title}: {props.value} {"("}{" "}
-      {Math.round(props.increaseValue * (1000 / props.tickrate))} {"/s)"}
+    <div className="py-2">
+      <Card>
+        <span className="font-actionbold">{props.title}:</span> {props.value}{" "}
+        {"("} {Math.round(props.increaseValue * (1000 / props.tickrate))}{" "}
+        {"/s)"}
+      </Card>
     </div>
   );
 };

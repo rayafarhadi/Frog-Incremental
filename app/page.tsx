@@ -1,10 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "./context/store";
-import Counter from "./components/Counter";
+import Counter from "./components/UI/Counter";
 import UpgradeList from "./components/Upgrades/UpgradeList";
 import { useInterval } from "./hooks/Hooks";
 import { load, save } from "./data/save";
+import TabList from "./components/UI/Tabs/TabList";
+import Card from "./components/UI/Card";
 
 type saveType = {
   bugs: number;
@@ -60,7 +62,7 @@ const UPGRADES = {
   f4: {
     key: "f4",
     name: "Tongue Strength",
-    effectDesc: "Increase the amount of bugs your tongue can hold at once",
+    effectDesc: "Increase the amount of bugs your tongue can hold",
     effectValue: (l: number) => Math.pow(2, l),
     effectValuePrefix: "Total Bugs x",
     effectValueSuffix: "",
@@ -72,7 +74,7 @@ const UPGRADES = {
   f5: {
     key: "f5",
     name: "Leg Strength",
-    effectDesc: "Increase jump height",
+    effectDesc: "Jump higher. Reach more bugs",
     effectValue: (l: number) => 1 + 0.1 * l,
     effectValuePrefix: "Total Bugs ^",
     effectValueSuffix: "",
@@ -85,6 +87,15 @@ const UPGRADES = {
 
 const TICKSPEED_UPGRADES = ["f1"];
 const BUG_UPGRADES = ["f2", "f3", "f4", "f5"];
+
+const TABS = [
+  {
+    key: "frog",
+  },
+  {
+    key: "coming soon",
+  },
+];
 
 export default function Home() {
   const { bugs, setBugs } = useGlobalContext();
@@ -163,18 +174,30 @@ export default function Home() {
   }, 100);
 
   return (
-    <main className="flex flex-col min-h-screen mx-auto px-12 py-4 bg-blue-400">
-      <Counter
-        title="Bugs"
-        tickrate={getTickRate()}
-        increaseValue={getIncreaseValue()}
-        value={bugs}
-        setValue={setBugs}
-      />
-      <UpgradeList
-        upgradesList={Object.values(upgrades)}
-        setLevels={handleLevelChange}
-      />
+    <main className="grid grid-cols-3 grid-rows-2 min-h-screen mx-auto px-12 py-4 bg-background-primary font-action text-xl">
+      <div id="resources" className="p-4 text-3xl">
+        <div className="h-full p-4 rounded-xl bg-background-secondary bg-opacity-40">
+          <div className="text-center pb-2">Resources</div>
+          <Counter
+            title="Bugs"
+            tickrate={getTickRate()}
+            increaseValue={getIncreaseValue()}
+            value={bugs}
+            setValue={setBugs}
+          />
+          <Card>Coming Soon</Card>
+        </div>
+      </div>
+      <div id="upgrades" className="col-span-2 row-span-2">
+        <TabList tabList={TABS} />
+        <UpgradeList
+          upgradesList={Object.values(upgrades)}
+          setLevels={handleLevelChange}
+        />
+      </div>
+      <div id="frog" className="bg-green-900">
+        Frog
+      </div>
     </main>
   );
 }
