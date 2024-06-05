@@ -13,7 +13,7 @@ const TabItem = (props: propsType) => {
 
   return (
     <div
-      className={`p-4 w-full rounded-t-3xl text-center ${tabClasses}`}
+      className={`p-4 w-full rounded-t-3xl text-center text-2xl ${tabClasses}`}
       onClick={() => props.selectTab(props.name)}
     >
       {props.name}

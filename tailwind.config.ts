@@ -12,7 +12,7 @@ const config: Config = {
         "background-primary": "#19aece",
         "background-secondary": "#166e7a",
         "button-primary": "#0d9682",
-        "highlight": "#52c33f",
+        highlight: "#52c33f",
       },
       fontFamily: {
         action: ["action", "sans-serif"],

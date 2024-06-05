@@ -7,6 +7,7 @@ import { useInterval } from "./hooks/Hooks";
 import { load, save } from "./data/save";
 import TabList from "./components/UI/Tabs/TabList";
 import Card from "./components/UI/Card";
+import Image from "next/image";
 
 type saveType = {
   bugs: number;
@@ -174,9 +175,15 @@ export default function Home() {
   }, 100);
 
   return (
-    <main className="grid grid-cols-3 grid-rows-2 min-h-screen mx-auto px-12 py-4 bg-background-primary font-action text-xl">
-      <div id="resources" className="p-4 text-3xl">
-        <div className="h-full p-4 rounded-xl bg-background-secondary bg-opacity-40">
+    <main className="min-h-screen px-12 py-4 bg-background-primary font-action text-xl">
+      <div
+        id="side-bar"
+        className="fixed flex flex-col w-1/3 pl-8 py-8 top-0 left-0 h-full overflow-hidden"
+      >
+        <div
+          id="resources"
+          className="basis-1/2 pt-4 pb-2 text-3xl p-4 rounded-xl bg-background-secondary bg-opacity-40"
+        >
           <div className="text-center pb-2">Resources</div>
           <Counter
             title="Bugs"
@@ -187,16 +194,25 @@ export default function Home() {
           />
           <Card>Coming Soon</Card>
         </div>
+        <div id="frog" className="basis-1/2 pt-2 pb-4">
+          <Image
+            className="w-full rounded-xl"
+            src="/images/Frog-Pond.png"
+            alt="frog"
+            width={512}
+            height={512}
+          />
+        </div>
       </div>
-      <div id="upgrades" className="col-span-2 row-span-2">
-        <TabList tabList={TABS} />
-        <UpgradeList
-          upgradesList={Object.values(upgrades)}
-          setLevels={handleLevelChange}
-        />
-      </div>
-      <div id="frog" className="bg-green-900">
-        Frog
+      <div className="flex flex-row">
+        <div id="spacer" className="basis-1/3" />
+        <div id="upgrades" className="basis-2/3">
+          <TabList tabList={TABS} />
+          <UpgradeList
+            upgradesList={Object.values(upgrades)}
+            setLevels={handleLevelChange}
+          />
+        </div>
       </div>
     </main>
   );
