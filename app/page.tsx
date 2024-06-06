@@ -21,7 +21,6 @@ type saveType = {
   };
 };
 
-Decimal.set({ toExpPos: 9 });
 const DEFAULT_TICK_RATE = new Decimal(1000);
 const DEFAULT_INCREASE_VALUE = new Decimal(1);
 

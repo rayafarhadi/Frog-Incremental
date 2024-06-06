@@ -2,6 +2,7 @@ import React from "react";
 import { useGlobalContext } from "../../context/store";
 import Card from "../UI/Card";
 import Decimal from "decimal.js";
+import { format } from "../../data/format";
 
 type propsType = {
   id: string;
@@ -33,7 +34,7 @@ const UpgradeItem = (props: propsType) => {
             <div>Level: {props.level}</div>
             <div>
               {props.effectValuePrefix}
-              {props.effectValue(props.level).toPrecision(4).toString()}
+              {format(props.effectValue(props.level))}
               {props.effectValueSuffix}
             </div>
           </div>
@@ -46,7 +47,7 @@ const UpgradeItem = (props: propsType) => {
               disabled={bugs.comparedTo(cost) == -1}
               className="border-2 rounded-md w-48 border-black bg-button-primary disabled:opacity-40"
             >
-              Cost: {cost.toPrecision(4).toString()}
+              Cost: {format(cost)}
             </button>
           </div>
         </div>

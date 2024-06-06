@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import { useInterval } from "../../hooks/Hooks";
 import Card from "./Card";
 import Decimal from "decimal.js";
+import { format } from "../../data/format";
 
 type propsType = {
   title: string;
@@ -21,11 +22,11 @@ const Counter = (props: propsType) => {
       <Card>
         <span className="font-actionbold">{props.title}:</span>{" "}
         {props.value.toPrecision(4).toString()} {"("}
-        {props.increaseValue
-          .times(new Decimal(1000).div(props.tickrate))
-          .round()
-          .toPrecision(4)
-          .toString()}{" "}
+        {format(
+          props.increaseValue
+            .times(new Decimal(1000).div(props.tickrate))
+            .round()
+        )}
         {"/s)"}
       </Card>
     </div>
