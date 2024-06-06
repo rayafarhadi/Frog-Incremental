@@ -10,7 +10,7 @@ type upgradeType = {
   effectValuePrefix: string;
   effectValueSuffix: string;
   effectValue: (l: number) => Decimal;
-  baseCost: number;
+  baseCost: Decimal;
   costScaling: number;
   level: number;
   effect: (x: Decimal, l: number) => Decimal;

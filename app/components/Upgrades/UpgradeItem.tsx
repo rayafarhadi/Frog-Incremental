@@ -11,7 +11,7 @@ type propsType = {
   effectValueSuffix: string;
   effectValue: (l: number) => Decimal;
   effect: (x: Decimal, l: number) => Decimal;
-  baseCost: number;
+  baseCost: Decimal;
   costScaling: number;
   level: number;
   setLevel: (id: string) => void;
@@ -20,9 +20,9 @@ type propsType = {
 const UpgradeItem = (props: propsType) => {
   const { bugs, setBugs } = useGlobalContext();
 
-  let cost = Math.floor(
-    props.baseCost * Math.pow(props.costScaling, props.level)
-  );
+  let cost = props.baseCost
+    .times(Math.pow(props.costScaling, props.level))
+    .floor();
 
   return (
     <div className="py-4">
@@ -33,7 +33,7 @@ const UpgradeItem = (props: propsType) => {
             <div>Level: {props.level}</div>
             <div>
               {props.effectValuePrefix}
-              {props.effectValue(props.level).toString()}
+              {props.effectValue(props.level).toPrecision(4).toString()}
               {props.effectValueSuffix}
             </div>
           </div>
@@ -46,7 +46,7 @@ const UpgradeItem = (props: propsType) => {
               disabled={bugs.comparedTo(cost) == -1}
               className="border-2 rounded-md w-48 border-black bg-button-primary disabled:opacity-40"
             >
-              Cost: {cost}
+              Cost: {cost.toPrecision(4).toString()}
             </button>
           </div>
         </div>

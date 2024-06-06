@@ -21,6 +21,7 @@ type saveType = {
   };
 };
 
+Decimal.set({ toExpPos: 9 });
 const DEFAULT_TICK_RATE = new Decimal(1000);
 const DEFAULT_INCREASE_VALUE = new Decimal(1);
 
@@ -32,7 +33,7 @@ const UPGRADES = {
     effectValue: (l: number) => new Decimal(100 * l),
     effectValuePrefix: "Speed +",
     effectValueSuffix: "%",
-    baseCost: 10,
+    baseCost: new Decimal(10),
     costScaling: 2,
     level: 0,
     effect: (x: Decimal, l: number) => x.div(1 + 1 * l),
@@ -44,7 +45,7 @@ const UPGRADES = {
     effectValue: (l: number) => new Decimal(l),
     effectValuePrefix: "Base Bugs +",
     effectValueSuffix: "",
-    baseCost: 50,
+    baseCost: new Decimal(50),
     costScaling: 3,
     level: 0,
     effect: (x: Decimal, l: number) => x.plus(l),
@@ -56,7 +57,7 @@ const UPGRADES = {
     effectValue: (l: number) => new Decimal(50 * l),
     effectValuePrefix: "Total Bugs +",
     effectValueSuffix: "%",
-    baseCost: 100,
+    baseCost: new Decimal(100),
     costScaling: 1.5,
     level: 0,
     effect: (x: Decimal, l: number) => x.times(1 + 0.5 * l),
@@ -68,7 +69,7 @@ const UPGRADES = {
     effectValue: (l: number) => new Decimal(Math.pow(2, l)),
     effectValuePrefix: "Total Bugs x",
     effectValueSuffix: "",
-    baseCost: 1000,
+    baseCost: new Decimal(1000),
     costScaling: 5,
     level: 0,
     effect: (x: Decimal, l: number) => x.times(Math.pow(2, l)),
@@ -80,7 +81,7 @@ const UPGRADES = {
     effectValue: (l: number) => new Decimal(1 + 0.1 * l),
     effectValuePrefix: "Total Bugs ^",
     effectValueSuffix: "",
-    baseCost: 100000,
+    baseCost: new Decimal(100000),
     costScaling: 10,
     level: 0,
     effect: (x: Decimal, l: number) => x.pow(1 + 0.1 * l),
@@ -110,7 +111,7 @@ export default function Home() {
     Object.values(newUpgrades).forEach((u) => {
       if (u.key === id) {
         setBugs(
-          bugs.minus(Math.floor(u.baseCost * Math.pow(u.costScaling, u.level)))
+          bugs.minus(u.baseCost.times(Math.pow(u.costScaling, u.level)).floor())
         );
         u.level++;
       }
