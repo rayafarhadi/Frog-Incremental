@@ -14,19 +14,19 @@ type propType = {
   setBugs: Dispatch<SetStateAction<Decimal>>;
 };
 
-const GlobalContext = createContext<propType>({
+const BugsContext = createContext<propType>({
   bugs: new Decimal(0),
   setBugs: (): Decimal => new Decimal(0),
 });
 
-export const GlobalContextProvider = ({ children }: any) => {
+export const BugsContextProvider = ({ children }: any) => {
   const [bugs, setBugs] = useState(new Decimal(0));
 
   return (
-    <GlobalContext.Provider value={{ bugs, setBugs }}>
+    <BugsContext.Provider value={{ bugs, setBugs }}>
       {children}
-    </GlobalContext.Provider>
+    </BugsContext.Provider>
   );
 };
 
-export const useGlobalContext = () => useContext(GlobalContext);
+export const useGlobalContext = () => useContext(BugsContext);

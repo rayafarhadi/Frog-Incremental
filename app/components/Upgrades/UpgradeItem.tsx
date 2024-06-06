@@ -1,5 +1,5 @@
 import React from "react";
-import { useGlobalContext } from "../../context/store";
+import { useGlobalContext } from "../../context/BugsContext";
 import Card from "../UI/Card";
 import Decimal from "decimal.js";
 import { format } from "../../data/format";
@@ -44,7 +44,7 @@ const UpgradeItem = (props: propsType) => {
           <div id="cost" className="flex flex-row place-content-end">
             <button
               onClick={() => props.setLevel(props.id)}
-              disabled={bugs.comparedTo(cost) == -1}
+              disabled={bugs.comparedTo(cost) === -1}
               className="border-2 rounded-md w-48 border-black bg-button-primary disabled:opacity-40"
             >
               Cost: {format(cost)}

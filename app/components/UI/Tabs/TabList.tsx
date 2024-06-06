@@ -1,6 +1,5 @@
-"use client";
-import React, { useState } from "react";
 import TabItem from "./TabItem";
+import { useGlobalContext } from "@/app/context/TabContext";
 
 type tabType = {
   key: string;
@@ -11,7 +10,7 @@ type propsType = {
 };
 
 const TabList = (props: propsType) => {
-  let [selectedTab, setSelectedTab] = useState("frog");
+  const { selectedTab, setSelectedTab } = useGlobalContext();
 
   return (
     <div className="flex flex-row mt-4">

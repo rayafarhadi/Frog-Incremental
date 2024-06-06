@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-import { GlobalContextProvider } from "./context/store";
+import { BugsContextProvider } from "./context/BugsContext";
+import { TabContextProvider } from "./context/TabContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <GlobalContextProvider>{children}</GlobalContextProvider>
+        <BugsContextProvider>
+          <TabContextProvider>{children}</TabContextProvider>
+        </BugsContextProvider>
       </body>
     </html>
   );

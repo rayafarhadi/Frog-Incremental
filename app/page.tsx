@@ -1,14 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useGlobalContext } from "./context/store";
+import { useGlobalContext as bugctx } from "./context/BugsContext";
+import { useGlobalContext as tabctx } from "./context/TabContext";
 import Counter from "./components/UI/Counter";
-import UpgradeList from "./components/Upgrades/UpgradeList";
 import { useInterval } from "./hooks/Hooks";
 import { load, save } from "./data/save";
-import TabList from "./components/UI/Tabs/TabList";
 import Card from "./components/UI/Card";
 import Image from "next/image";
 import Decimal from "decimal.js";
+import FrogFeature from "./components/Features/FrogFeature";
+import TabList from "./components/UI/Tabs/TabList";
 
 type saveType = {
   bugs: number;
@@ -90,17 +91,9 @@ const UPGRADES = {
 const TICKSPEED_UPGRADES = ["f1"];
 const BUG_UPGRADES = ["f2", "f3", "f4", "f5"];
 
-const TABS = [
-  {
-    key: "frog",
-  },
-  {
-    key: "coming soon",
-  },
-];
-
 export default function Home() {
-  const { bugs, setBugs } = useGlobalContext();
+  const { bugs, setBugs } = bugctx();
+  const { selectedTab, setSelectedTab } = tabctx();
 
   let [upgrades, setUpgrades] = useState(UPGRADES);
   let [loaded, setLoaded] = useState(false);
@@ -175,6 +168,26 @@ export default function Home() {
     save(upgrades, bugs);
   }, 100);
 
+  const TABS = [
+    {
+      key: "frog",
+      content: (
+        <FrogFeature
+          upgradesList={Object.values(upgrades)}
+          setLevels={handleLevelChange}
+        />
+      ),
+    },
+    {
+      key: "options",
+      content: <div>Options</div>,
+    },
+    {
+      key: "coming soon",
+      content: <div>Coming Soon</div>,
+    },
+  ];
+
   return (
     <main className="min-h-screen px-12 py-4 bg-background-primary font-action text-xl">
       <div
@@ -209,10 +222,7 @@ export default function Home() {
         <div id="spacer" className="basis-1/3" />
         <div id="upgrades" className="basis-2/3">
           <TabList tabList={TABS} />
-          <UpgradeList
-            upgradesList={Object.values(upgrades)}
-            setLevels={handleLevelChange}
-          />
+          <div>{TABS.find((t) => t.key === selectedTab)?.content}</div>
         </div>
       </div>
     </main>
