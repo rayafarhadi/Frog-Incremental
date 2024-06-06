@@ -1,6 +1,7 @@
 import React from "react";
 import UpgradeItem from "./UpgradeItem";
 import Card from "../UI/Card";
+import Decimal from "decimal.js";
 
 type upgradeType = {
   key: string;
@@ -8,11 +9,11 @@ type upgradeType = {
   effectDesc: string;
   effectValuePrefix: string;
   effectValueSuffix: string;
-  effectValue: (l: number) => number;
+  effectValue: (l: number) => Decimal;
   baseCost: number;
   costScaling: number;
   level: number;
-  effect: (x: number, l: number) => number;
+  effect: (x: Decimal, l: number) => Decimal;
 };
 
 type propsType = {

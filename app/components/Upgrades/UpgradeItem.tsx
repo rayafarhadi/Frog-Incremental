@@ -1,6 +1,7 @@
 import React from "react";
 import { useGlobalContext } from "../../context/store";
 import Card from "../UI/Card";
+import Decimal from "decimal.js";
 
 type propsType = {
   id: string;
@@ -8,8 +9,8 @@ type propsType = {
   effectDesc: string;
   effectValuePrefix: string;
   effectValueSuffix: string;
-  effectValue: (l: number) => number;
-  effect: (x: number, l: number) => number;
+  effectValue: (l: number) => Decimal;
+  effect: (x: Decimal, l: number) => Decimal;
   baseCost: number;
   costScaling: number;
   level: number;
@@ -32,7 +33,7 @@ const UpgradeItem = (props: propsType) => {
             <div>Level: {props.level}</div>
             <div>
               {props.effectValuePrefix}
-              {props.effectValue(props.level)}
+              {props.effectValue(props.level).toString()}
               {props.effectValueSuffix}
             </div>
           </div>
@@ -42,7 +43,7 @@ const UpgradeItem = (props: propsType) => {
           <div id="cost" className="flex flex-row place-content-end">
             <button
               onClick={() => props.setLevel(props.id)}
-              disabled={cost > bugs}
+              disabled={bugs.comparedTo(cost) == -1}
               className="border-2 rounded-md w-48 border-black bg-button-primary disabled:opacity-40"
             >
               Cost: {cost}

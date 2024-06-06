@@ -8,6 +8,7 @@ import { load, save } from "./data/save";
 import TabList from "./components/UI/Tabs/TabList";
 import Card from "./components/UI/Card";
 import Image from "next/image";
+import Decimal from "decimal.js";
 
 type saveType = {
   bugs: number;
@@ -20,69 +21,69 @@ type saveType = {
   };
 };
 
-const DEFAULT_TICK_RATE = 1000;
-const DEFAULT_INCREASE_VALUE = 1;
+const DEFAULT_TICK_RATE = new Decimal(1000);
+const DEFAULT_INCREASE_VALUE = new Decimal(1);
 
 const UPGRADES = {
   f1: {
     key: "f1",
     name: "Tongue Speed",
     effectDesc: "Eat bugs faster",
-    effectValue: (l: number) => 100 * l,
+    effectValue: (l: number) => new Decimal(100 * l),
     effectValuePrefix: "Speed +",
     effectValueSuffix: "%",
     baseCost: 10,
     costScaling: 2,
     level: 0,
-    effect: (x: number, l: number) => x / (1 + 1 * l),
+    effect: (x: Decimal, l: number) => x.div(1 + 1 * l),
   },
   f2: {
     key: "f2",
     name: "Camouflage Skin",
     effectDesc: "Become harder to spot",
-    effectValue: (l: number) => l,
+    effectValue: (l: number) => new Decimal(l),
     effectValuePrefix: "Base Bugs +",
     effectValueSuffix: "",
     baseCost: 50,
     costScaling: 3,
     level: 0,
-    effect: (x: number, l: number) => x + l,
+    effect: (x: Decimal, l: number) => x.plus(l),
   },
   f3: {
     key: "f3",
     name: "Tongue Length",
     effectDesc: "Increase the range of your tongue",
-    effectValue: (l: number) => 50 * l,
+    effectValue: (l: number) => new Decimal(50 * l),
     effectValuePrefix: "Total Bugs +",
     effectValueSuffix: "%",
     baseCost: 100,
     costScaling: 1.5,
     level: 0,
-    effect: (x: number, l: number) => x * (1 + 0.5 * l),
+    effect: (x: Decimal, l: number) => x.times(1 + 0.5 * l),
   },
   f4: {
     key: "f4",
     name: "Tongue Strength",
     effectDesc: "Increase the amount of bugs your tongue can hold",
-    effectValue: (l: number) => Math.pow(2, l),
+    effectValue: (l: number) => new Decimal(Math.pow(2, l)),
     effectValuePrefix: "Total Bugs x",
     effectValueSuffix: "",
     baseCost: 1000,
     costScaling: 5,
     level: 0,
-    effect: (x: number, l: number) => x * Math.pow(2, l),
+    effect: (x: Decimal, l: number) => x.times(Math.pow(2, l)),
   },
   f5: {
     key: "f5",
     name: "Leg Strength",
     effectDesc: "Jump higher. Reach more bugs",
-    effectValue: (l: number) => 1 + 0.1 * l,
+    effectValue: (l: number) => new Decimal(1 + 0.1 * l),
     effectValuePrefix: "Total Bugs ^",
     effectValueSuffix: "",
     baseCost: 100000,
     costScaling: 10,
     level: 0,
-    effect: (x: number, l: number) => Math.pow(x, 1 + 0.1 * l),
+    effect: (x: Decimal, l: number) => x.pow(1 + 0.1 * l),
   },
 };
 
@@ -109,7 +110,7 @@ export default function Home() {
     Object.values(newUpgrades).forEach((u) => {
       if (u.key === id) {
         setBugs(
-          bugs - Math.floor(u.baseCost * Math.pow(u.costScaling, u.level))
+          bugs.minus(Math.floor(u.baseCost * Math.pow(u.costScaling, u.level)))
         );
         u.level++;
       }
@@ -138,7 +139,7 @@ export default function Home() {
         x = u.effect(x, u.level);
       }
     });
-    return Math.round(x);
+    return x.round();
   }
 
   function getIncreaseValue() {
@@ -148,7 +149,7 @@ export default function Home() {
         x = u.effect(x, u.level);
       }
     });
-    return Math.round(x);
+    return x.round();
   }
 
   useEffect(() => {
@@ -158,9 +159,9 @@ export default function Home() {
 
       if (data != null) {
         if (data.bugs === null) {
-          setBugs(0);
+          setBugs(new Decimal(0));
         } else {
-          setBugs(data.bugs);
+          setBugs(new Decimal(data.bugs));
         }
 
         Object.values(data.upgrades).forEach((u) => {

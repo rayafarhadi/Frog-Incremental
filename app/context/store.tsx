@@ -1,5 +1,6 @@
 "use client";
 
+import Decimal from "decimal.js";
 import {
   createContext,
   useContext,
@@ -9,17 +10,17 @@ import {
 } from "react";
 
 type propType = {
-  bugs: number;
-  setBugs: Dispatch<SetStateAction<number>>;
+  bugs: Decimal;
+  setBugs: Dispatch<SetStateAction<Decimal>>;
 };
 
 const GlobalContext = createContext<propType>({
-  bugs: 0,
-  setBugs: (): number => 0,
+  bugs: new Decimal(0),
+  setBugs: (): Decimal => new Decimal(0),
 });
 
 export const GlobalContextProvider = ({ children }: any) => {
-  const [bugs, setBugs] = useState(0);
+  const [bugs, setBugs] = useState(new Decimal(0));
 
   return (
     <GlobalContext.Provider value={{ bugs, setBugs }}>
