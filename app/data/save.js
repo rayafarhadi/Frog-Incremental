@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-export function save(upgradeData, bugs) {
+export function getSaveData(upgradeData, bugs) {
   const upgradeLevels = {
     f1: { key: upgradeData.f1.key, level: upgradeData.f1.level },
     f2: { key: upgradeData.f2.key, level: upgradeData.f2.level },
@@ -14,11 +14,19 @@ export function save(upgradeData, bugs) {
     upgrades: upgradeLevels,
   };
 
-  Cookies.set("saveData", JSON.stringify(saveData), { expires: 100000 });
+  return JSON.stringify(saveData);
 }
 
-export function load() {
-  if (
+export function save(upgradeData, bugs) {
+  Cookies.set("saveData", getSaveData(upgradeData, bugs), {
+    expires: 100000,
+  });
+}
+
+export function load(data) {
+  if (data) {
+    return JSON.parse(data);
+  } else if (
     Cookies.get("saveData") != null &&
     Cookies.get("saveData") != "undefined"
   ) {

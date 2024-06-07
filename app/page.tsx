@@ -10,6 +10,8 @@ import Image from "next/image";
 import Decimal from "decimal.js";
 import FrogFeature from "./components/Features/FrogFeature";
 import TabList from "./components/UI/Tabs/TabList";
+import OptionsFeature from "./components/Features/OptionsFeature";
+import ComingSoonFeature from "./components/Features/ComingSoonFeature";
 
 type saveType = {
   bugs: number;
@@ -180,11 +182,18 @@ export default function Home() {
     },
     {
       key: "options",
-      content: <div>Options</div>,
+      content: (
+        <OptionsFeature
+          upgradeData={upgrades}
+          bugs={bugs}
+          setBugs={setBugs}
+          setLevel={setLevel}
+        />
+      ),
     },
     {
       key: "coming soon",
-      content: <div>Coming Soon</div>,
+      content: <ComingSoonFeature />,
     },
   ];
 

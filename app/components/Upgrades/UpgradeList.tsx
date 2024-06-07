@@ -23,7 +23,7 @@ type propsType = {
 
 const UpgradeList = (props: propsType) => {
   return (
-    <div className="h-fit p-4 rounded-b-xl bg-background-secondary bg-opacity-40">
+    <div className="feature-card">
       {props.upgradesList.map((upgrade) => (
         <UpgradeItem
           key={upgrade.key}

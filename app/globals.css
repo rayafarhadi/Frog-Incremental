@@ -1,8 +1,8 @@
 @tailwind base;
 @tailwind components;
 
-.test-border {
-  @apply border-red-500 border-2;
+.feature-card {
+  @apply h-fit p-4 rounded-b-xl bg-background-secondary bg-opacity-40;
 }
 
 @tailwind utilities;

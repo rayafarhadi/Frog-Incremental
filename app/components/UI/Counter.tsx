@@ -21,7 +21,7 @@ const Counter = (props: propsType) => {
     <div className="py-2">
       <Card>
         <span className="font-actionbold">{props.title}:</span>{" "}
-        {props.value.toPrecision(4).toString()} {"("}
+        {format(props.value)} {"("}
         {format(
           props.increaseValue
             .times(new Decimal(1000).div(props.tickrate))
