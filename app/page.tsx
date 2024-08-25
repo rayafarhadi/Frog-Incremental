@@ -220,7 +220,7 @@ export default function Home() {
         <div id="frog" className="basis-1/2 pt-2 pb-4">
           <Image
             className="w-full rounded-xl border-4 border-background-secondary border-opacity-40"
-            src="/images/Frog-Pond.png"
+            src="/Frog-Incremental/images/Frog-Pond.png"
             alt="frog"
             width={512}
             height={512}
