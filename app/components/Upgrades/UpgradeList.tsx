@@ -13,6 +13,7 @@ type upgradeType = {
   baseCost: Decimal;
   costScaling: number;
   level: number;
+  maxLevel: number;
   effect: (x: Decimal, l: number) => Decimal;
 };
 
@@ -35,6 +36,7 @@ const UpgradeList = (props: propsType) => {
           effectValue={upgrade.effectValue}
           effect={upgrade.effect}
           level={upgrade.level}
+          maxLevel={upgrade.maxLevel}
           setLevel={props.setLevels}
           baseCost={upgrade.baseCost}
           costScaling={upgrade.costScaling}

@@ -12,6 +12,7 @@ type upgradeType = {
   baseCost: Decimal;
   costScaling: number;
   level: number;
+  maxLevel: number;
   effect: (x: Decimal, l: number) => Decimal;
 };
 

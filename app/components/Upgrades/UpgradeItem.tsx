@@ -15,6 +15,7 @@ type propsType = {
   baseCost: Decimal;
   costScaling: number;
   level: number;
+  maxLevel: number;
   setLevel: (id: string) => void;
 };
 
@@ -31,7 +32,9 @@ const UpgradeItem = (props: propsType) => {
         <div className="grid grid-cols-3">
           <div id="info">
             <div className="font-actionbold">{props.name}</div>
-            <div>Level: {props.level}</div>
+            <div>
+              Level: {props.level} / {props.maxLevel}
+            </div>
             <div>
               {props.effectValuePrefix}
               {format(props.effectValue(props.level))}
@@ -44,7 +47,9 @@ const UpgradeItem = (props: propsType) => {
           <div id="cost" className="flex flex-row place-content-end">
             <button
               onClick={() => props.setLevel(props.id)}
-              disabled={bugs.comparedTo(cost) === -1}
+              disabled={
+                bugs.comparedTo(cost) === -1 || props.level >= props.maxLevel
+              }
               className="border-2 rounded-md w-48 border-black bg-button-primary disabled:opacity-40"
             >
               Cost: {format(cost)}
