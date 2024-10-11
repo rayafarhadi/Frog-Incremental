@@ -14,6 +14,8 @@ type propsType = {
   effect: (x: Decimal, l: number) => Decimal;
   baseCost: Decimal;
   costScaling: number;
+  exponentialScalingPoint: number;
+  exponentialScalingFactor: number;
   level: number;
   maxLevel: number;
   setLevel: (id: string) => void;
@@ -22,9 +24,25 @@ type propsType = {
 const UpgradeItem = (props: propsType) => {
   const { bugs, setBugs } = useGlobalContext();
 
-  let cost = props.baseCost
-    .times(Math.pow(props.costScaling, props.level))
-    .floor();
+  let cost: Decimal;
+  if (props.level < props.exponentialScalingPoint) {
+    cost = props.baseCost
+      .times(Math.pow(props.costScaling, props.level))
+      .floor();
+  } else {
+    cost = new Decimal(
+      Math.pow(
+        props.baseCost
+          .times(Math.pow(props.costScaling, props.level))
+          .floor()
+          .toNumber(),
+        1 +
+          0.01 *
+            (props.exponentialScalingFactor *
+              (props.level - props.exponentialScalingPoint))
+      )
+    ).floor();
+  }
 
   return (
     <div className="py-4">
