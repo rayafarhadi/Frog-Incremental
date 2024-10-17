@@ -11,6 +11,8 @@ type upgradeType = {
   effectValue: (l: number) => Decimal;
   baseCost: Decimal;
   costScaling: number;
+  exponentialScalingPoint: number;
+  exponentialScalingFactor: number;
   level: number;
   maxLevel: number;
   effect: (x: Decimal, l: number) => Decimal;
